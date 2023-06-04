@@ -2,8 +2,13 @@ part of demoncore;
 
 class GameCanvas extends StatefulWidget {
   final Color backgroundColor;
-  const GameCanvas({
+  final double tileSize;
+  final Camera camera = Camera();
+  late GameMap gameMap;
+
+  GameCanvas({
     required this.backgroundColor,
+    required this.tileSize,
     super.key,
   });
   @override
@@ -37,6 +42,9 @@ class GameCanvasState extends State<GameCanvas> {
           color: widget.backgroundColor,
           width: ScreenDimensions.getWidth(context),
           height: ScreenDimensions.getHeight(context),
+          child: Stack(
+            children: widget.gameMap.tiles.values.toList(),
+          ),
         ),
       ),
     );
