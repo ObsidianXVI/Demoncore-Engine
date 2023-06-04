@@ -1,7 +1,18 @@
-library demoncore_engine;
+library demoncore;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+part './asset_manager/asset_manager.dart';
+
+part './canvas/canvas.dart';
+
+part './channels/channels.dart';
+part './channels/signal.dart';
+
+part './utils/screen_utils.dart';
+
+class DemoncoreEngine {
+  DemoncoreEngine();
 }
