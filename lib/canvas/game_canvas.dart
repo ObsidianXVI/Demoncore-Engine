@@ -5,12 +5,13 @@ class GameCanvas extends StatefulWidget {
   final double tileSize;
   final double stepSize;
   final Camera camera = Camera();
-  late GameMap gameMap;
+  final GameMapBuilder gameMapBuilder;
 
   GameCanvas({
     required this.backgroundColor,
     required this.tileSize,
     required this.stepSize,
+    required this.gameMapBuilder,
     super.key,
   });
   @override
@@ -29,28 +30,19 @@ class GameCanvasState extends State<GameCanvas> {
       if (signal.code == SignalCode.gameCanvasKeyEventReceived) {
         final KeyEvent keyEvent = signal.context as KeyEvent;
         if (keyEvent.logicalKey == LogicalKeyboardKey.arrowLeft) {
-          widget.camera.offset = Offset(
-            widget.camera.offset.dx - widget.stepSize,
-            widget.camera.offset.dy,
-          );
+          widget.camera.offset += Offset(widget.stepSize, 0);
           setState(() {});
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowRight) {
-          widget.camera.offset = Offset(
-            widget.camera.offset.dx + widget.stepSize,
-            widget.camera.offset.dy,
-          );
+          widget.camera.offset += Offset(-widget.stepSize, 0);
           setState(() {});
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp) {
-          widget.camera.offset = Offset(
-            widget.camera.offset.dx,
-            widget.camera.offset.dy - widget.stepSize,
-          );
+          widget.camera.offset += Offset(0, widget.stepSize);
           setState(() {});
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
-          widget.camera.offset = Offset(
-            widget.camera.offset.dx,
-            widget.camera.offset.dy + widget.stepSize,
-          );
+          widget.camera.offset += Offset(0, -widget.stepSize);
+          setState(() {});
+        } else if (keyEvent.logicalKey == LogicalKeyboardKey.keyD) {
+          widget.camera.changeZoom(1);
           setState(() {});
         }
       }
@@ -86,7 +78,11 @@ class GameCanvasState extends State<GameCanvas> {
                   width: ScreenDimensions.getWidth(context),
                   height: ScreenDimensions.getHeight(context),
                   child: Stack(
-                    children: widget.gameMap.tiles.values.toList(),
+                    children: widget.gameMapBuilder
+                        .buildMap(widget)
+                        .tiles
+                        .values
+                        .toList(),
                   ),
                 ),
               ],

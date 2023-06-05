@@ -3,6 +3,7 @@ part of demoncore;
 enum SignalCode {
   gameCanvasReady('game.canvas.ready'),
   gameCanvasKeyEventReceived('game.canvas.keyevent.received'),
+  cameraZoomChanged('camera.zoom.changed'),
   ;
 
   final String code;

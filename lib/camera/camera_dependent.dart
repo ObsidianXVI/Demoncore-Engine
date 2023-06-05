@@ -1,12 +1,13 @@
 part of demoncore;
 
-class CameraDependent extends StatelessWidget {
+class CameraDependent extends StatefulWidget {
   final double width;
   final double height;
   final Camera camera;
   final Widget child;
+  late CameraDependentState cameraDependentState;
 
-  const CameraDependent({
+  CameraDependent({
     required this.width,
     required this.height,
     required this.camera,
@@ -15,11 +16,26 @@ class CameraDependent extends StatelessWidget {
   });
 
   @override
+  CameraDependentState createState() {
+    cameraDependentState = CameraDependentState();
+    Channel.signalStream.listen((Signal signal) {
+      if (signal.code == SignalCode.cameraZoomChanged) {
+        cameraDependentState.refresh();
+      }
+    });
+    return cameraDependentState;
+  }
+}
+
+class CameraDependentState<T extends CameraDependent> extends State<T> {
+  void refresh() => setState(() {});
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: camera.zoomLevel * width,
-      height: camera.zoomLevel * height,
-      child: child,
+      width: widget.camera.zoomLevel * widget.width,
+      height: widget.camera.zoomLevel * widget.height,
+      child: widget.child,
     );
   }
 }

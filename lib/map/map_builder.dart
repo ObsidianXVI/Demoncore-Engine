@@ -10,3 +10,11 @@ part of demoncore;
 ///       )
 ///     )
 ///   );
+
+class GameMapBuilder {
+  final GameMap Function(GameCanvas) buildMap;
+
+  const GameMapBuilder({
+    required this.buildMap,
+  });
+}
