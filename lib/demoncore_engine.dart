@@ -15,9 +15,14 @@ part './map/map_builder.dart';
 part './map/position.dart';
 
 part './sprites/sprites.dart';
+part './sprites/static_tile_sprite.dart';
+part './sprites/extruded_sprite.dart';
 
 part './canvas/game_canvas.dart';
 part './canvas/canvas_descendant.dart';
+
+part './physics/physics.dart';
+part './physics/sprite_path.dart';
 
 part './channels/channels.dart';
 part './channels/signal.dart';

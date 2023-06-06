@@ -6,9 +6,11 @@ class GameMap extends CanvasDescendant {
   final int rows;
   final int cols;
   final Map<TilePosition, StaticTileSprite> tiles = {};
+  final ExtrudedControllableSprite activeSprite;
 
   GameMap({
     required super.gameCanvas,
+    required this.activeSprite,
     required this.rows,
     required this.cols,
     TileSpriteGenerator? tileSpriteGenerator,

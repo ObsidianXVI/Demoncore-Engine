@@ -4,6 +4,8 @@ enum SignalCode {
   gameCanvasReady('game.canvas.ready'),
   gameCanvasKeyEventReceived('game.canvas.keyevent.received'),
   cameraZoomChanged('camera.zoom.changed'),
+  activeSpriteMoved('sprite.active.moved'),
+  spriteDetectedCollision('sprite.extruded.collision.detected'),
   ;
 
   final String code;
