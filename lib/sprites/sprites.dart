@@ -1,23 +1,25 @@
 part of demoncore;
 
-abstract class Sprite extends CameraDependent implements DCObject {
+abstract class SpriteInstance extends CameraDependent implements DCObject {
   @override
   final String id = ID.generate('sprite');
   @override
   final String label = 'sprite';
   final AssetImage baseImage;
   final GameCanvas gameCanvas;
+  final SpriteBlueprint spriteBlueprint;
 
-  Sprite({
-    required this.baseImage,
+  SpriteInstance({
+    required this.spriteBlueprint,
     required this.gameCanvas,
     required super.width,
     required super.height,
     super.key,
-  }) : super(
+  })  : baseImage = spriteBlueprint.assetImage,
+        super(
           camera: gameCanvas.camera,
           child: Image(
-            image: baseImage,
+            image: spriteBlueprint.assetImage,
             fit: BoxFit.cover,
           ),
         );
@@ -26,7 +28,7 @@ abstract class Sprite extends CameraDependent implements DCObject {
   SpriteController createState();
 }
 
-abstract class SpriteController<S extends Sprite>
+abstract class SpriteController<S extends SpriteInstance>
     extends CameraDependentState<S> {
   SpriteController();
 
@@ -41,12 +43,28 @@ abstract class SpriteController<S extends Sprite>
   }
 }
 
-abstract class StaticSprite extends Sprite {
-  StaticSprite({
-    required super.baseImage,
-    required super.width,
-    required super.height,
+abstract class TileSpriteInstance extends SpriteInstance {
+  final TilePosition tilePosition;
+  TileSpriteInstance({
+    required this.tilePosition,
+    required super.gameCanvas,
+    required super.spriteBlueprint,
+    super.key,
+  }) : super(
+          width: gameCanvas.tileSize,
+          height: gameCanvas.tileSize,
+        );
+}
+
+abstract class StaticSpriteInstance extends SpriteInstance {
+  final StaticSprite staticSpriteBP;
+  StaticSpriteInstance({
+    required this.staticSpriteBP,
     required super.gameCanvas,
     super.key,
-  });
+  }) : super(
+          spriteBlueprint: staticSpriteBP,
+          width: staticSpriteBP.width,
+          height: staticSpriteBP.height,
+        );
 }

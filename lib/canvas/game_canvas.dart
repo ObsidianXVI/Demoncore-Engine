@@ -25,7 +25,6 @@ class GameCanvasState extends State<GameCanvas> {
 
   @override
   void initState() {
-    Channel.streamController.add(Signal.gameCanvasReady(context: context));
     Channel.signalStream.listen((Signal signal) {
       if (signal.code == SignalCode.gameCanvasKeyEventReceived) {
         final KeyEvent keyEvent = signal.context as KeyEvent;
@@ -54,8 +53,7 @@ class GameCanvasState extends State<GameCanvas> {
           Channel.streamController.add(
             Signal(
               code: SignalCode.activeSpriteMoved,
-              context: gameMap.activeSprite.globalKey.currentContext
-                  ?.findRenderObject() as RenderBox,
+              context: gameMap.activeSprite.getRenderBox(),
             ),
           );
         }
@@ -104,7 +102,7 @@ class GameCanvasState extends State<GameCanvas> {
                   width: ScreenDimensions.getWidth(context),
                   height: ScreenDimensions.getHeight(context),
                   child: Stack(
-                    children: gameMap.tiles.values.toList(),
+                    children: gameMap.layers,
                   ),
                 ),
                 Center(
