@@ -1,7 +1,9 @@
 library demoncore;
 
 import 'dart:async';
+import 'dart:html';
 import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +14,7 @@ part './asset_manager/asset_manager.dart';
 
 part './map/game_map.dart';
 part './map/map_builder.dart';
+part './map/game_map_matrix.dart';
 part './map/map_component.dart';
 part './map/position.dart';
 
@@ -21,12 +24,16 @@ part './sprites/animated_tile_sprite.dart';
 part './sprites/extruded_sprite.dart';
 part './sprites/spritesheet.dart';
 part './sprites/sprite_blueprint.dart';
+part './sprites/sprite_radius.dart';
 
 part './canvas/game_canvas.dart';
 part './canvas/canvas_descendant.dart';
 
 part './physics/physics.dart';
 part './physics/sprite_path.dart';
+
+part './sensor/sensor.dart';
+part './sensor/physics_sensor.dart';
 
 part './channels/channels.dart';
 part './channels/signal.dart';

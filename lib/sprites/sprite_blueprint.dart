@@ -122,3 +122,9 @@ class AnimatedTileSprite extends TileSprite<AnimatedTileSpriteInstance> {
     );
   }
 }
+
+extension SpriteBlueprintUtils on List<SpriteBlueprint> {
+  List<SpriteInstance> buildAll(GameCanvas gameCanvas, TilePosition origin) {
+    return map((SpriteBlueprint sb) => sb.render(gameCanvas, origin)).toList();
+  }
+}

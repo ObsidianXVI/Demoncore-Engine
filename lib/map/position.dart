@@ -29,6 +29,10 @@ class TilePosition {
 
   TilePosition(this.colNum, this.rowNum);
 
+  TilePosition.origin()
+      : rowNum = 0,
+        colNum = 0;
+
   operator +(List<int> translationVector) {
     return TilePosition(
       colNum + translationVector.elementAt(0),

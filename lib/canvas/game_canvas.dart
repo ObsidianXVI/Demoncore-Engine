@@ -5,13 +5,13 @@ class GameCanvas extends StatefulWidget {
   double tileSize;
   double stepSize;
   final Camera camera = Camera();
-  final GameMapBuilder gameMapBuilder;
+  final GameMap Function(GameCanvas) gameMap;
 
   GameCanvas({
     required this.backgroundColor,
     required this.tileSize,
     required this.stepSize,
-    required this.gameMapBuilder,
+    required this.gameMap,
     super.key,
   });
   @override
@@ -56,7 +56,7 @@ class GameCanvasState extends State<GameCanvas> {
           Channel.streamController.add(
             Signal(
               code: SignalCode.activeSpriteMoved,
-              context: gameMap.activeSprite.getRenderBox(),
+              context: widget.gameMap(widget).activeSprite.getRenderBox(),
             ),
           );
         }
@@ -81,8 +81,6 @@ class GameCanvasState extends State<GameCanvas> {
     });
     super.initState();
   }
-
-  GameMap get gameMap => widget.gameMapBuilder.buildMap(widget);
 
   @override
   Widget build(BuildContext context) {
@@ -112,11 +110,11 @@ class GameCanvasState extends State<GameCanvas> {
                   width: ScreenDimensions.getWidth(context),
                   height: ScreenDimensions.getHeight(context),
                   child: Stack(
-                    children: gameMap.layers,
+                    children: widget.gameMap(widget).sprites,
                   ),
                 ),
                 Center(
-                  child: gameMap.activeSprite,
+                  child: widget.gameMap(widget).activeSprite,
                 ),
               ],
             ),

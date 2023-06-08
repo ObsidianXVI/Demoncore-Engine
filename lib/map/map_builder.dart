@@ -31,9 +31,7 @@ class GameMapBuilder {
     return GameMap(
       gameCanvas: gameCanvas,
       activeSprite: controllableSprite.render(gameCanvas, origin),
-      layers: sprites,
+      sprites: sprites,
     );
   }
 }
-
-
