@@ -2,8 +2,8 @@ part of demoncore;
 
 class GameCanvas extends StatefulWidget {
   final Color backgroundColor;
-  final double tileSize;
-  final double stepSize;
+  double tileSize;
+  double stepSize;
   final Camera camera = Camera();
   final GameMapBuilder gameMapBuilder;
 
@@ -41,8 +41,11 @@ class GameCanvasState extends State<GameCanvas> {
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
           widget.camera.offset += Offset(0, -widget.stepSize);
           knownKey = true;
-        } else if (keyEvent.logicalKey == LogicalKeyboardKey.keyD) {
-          widget.camera.changeZoom(1);
+        } else if (keyEvent.logicalKey == LogicalKeyboardKey.bracketRight) {
+          widget.camera.changeZoom(0.2);
+          knownKey = true;
+        } else if (keyEvent.logicalKey == LogicalKeyboardKey.bracketLeft) {
+          widget.camera.changeZoom(-0.2);
           knownKey = true;
         } else {
           knownKey = false;
@@ -58,6 +61,13 @@ class GameCanvasState extends State<GameCanvas> {
           );
         }
       }
+    });
+    Channel.signalStream.listen((Signal signal) {
+      if (signal.code == SignalCode.cameraZoomChanged) {
+        widget.tileSize = widget.tileSize * widget.camera.zoomLevel;
+        widget.stepSize = widget.stepSize * widget.camera.zoomLevel;
+      }
+      setState(() {});
     });
     Channel.signalStream.listen((Signal signal) {
       if (signal.code == SignalCode.spriteDetectedCollision) {

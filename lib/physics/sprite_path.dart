@@ -1,7 +1,7 @@
 part of demoncore;
 
 class SpritePath {
-  final Sprite sprite;
+  final SpriteInstance sprite;
   final Offset translationVector;
 
   SpritePath({

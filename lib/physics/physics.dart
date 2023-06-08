@@ -1,6 +1,6 @@
 part of demoncore;
 
-mixin Physics on Sprite {
+mixin Physics on SpriteInstance {
   /* Offset check(SpritePath spritePath, GameCanvas gameCanvas) {
 
   } */
