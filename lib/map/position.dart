@@ -1,8 +1,8 @@
 part of demoncore;
 
 class RelativeTilePosition {
-  final int rowNum;
-  final int colNum;
+  int rowNum;
+  int colNum;
 
   RelativeTilePosition(this.colNum, this.rowNum);
 
@@ -11,6 +11,11 @@ class RelativeTilePosition {
       colNum + translationVector.elementAt(0),
       rowNum + translationVector.elementAt(1),
     );
+  }
+
+  void translate(List<int> translationVector) {
+    colNum += translationVector.elementAt(0);
+    rowNum += translationVector.elementAt(1);
   }
 
   TilePosition makeAbsolue(TilePosition tilePosition) {

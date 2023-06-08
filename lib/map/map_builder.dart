@@ -36,8 +36,4 @@ class GameMapBuilder {
   }
 }
 
-abstract class MapComponent {
-  const MapComponent();
 
-  List<SpriteBlueprint> createBlueprints();
-}

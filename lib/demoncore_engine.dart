@@ -12,6 +12,7 @@ part './asset_manager/asset_manager.dart';
 
 part './map/game_map.dart';
 part './map/map_builder.dart';
+part './map/map_component.dart';
 part './map/position.dart';
 
 part './sprites/sprites.dart';
