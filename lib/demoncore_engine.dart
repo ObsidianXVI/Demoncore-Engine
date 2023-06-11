@@ -3,7 +3,6 @@ library demoncore;
 import 'dart:async';
 import 'dart:html';
 import 'dart:math';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,10 +25,12 @@ part './sprites/spritesheet.dart';
 part './sprites/sprite_blueprint.dart';
 part './sprites/sprite_radius.dart';
 
+part './gen2_sprites/sprites.dart';
+part './gen2_sprites/sprite_blueprint.dart';
+
 part './canvas/game_canvas.dart';
 part './canvas/canvas_descendant.dart';
 
-part './physics/physics.dart';
 part './physics/sprite_path.dart';
 
 part './sensor/sensor.dart';
@@ -47,6 +48,11 @@ part './utils/screen_utils.dart';
 part './utils/double_iterator.dart';
 part './utils/id_gen.dart';
 part './utils/loop.dart';
+part './utils/range.dart';
+part './utils/vector.dart';
+part './utils/matrix.dart';
+part './utils/offset_ext.dart';
+part './utils/double_ext.dart';
 
 class DemoncoreEngine extends StatelessWidget {
   final String title;

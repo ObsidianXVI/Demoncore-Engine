@@ -13,8 +13,8 @@ part of demoncore;
 
 class GameMapBuilder {
   final MapComponent map;
-  final ExtrudedControllableSprite controllableSprite;
-  late List<SpriteBlueprint> blueprints;
+  final G2ControllableSprite controllableSprite;
+  late List<G2SpriteBlueprint> blueprints;
 
   GameMapBuilder({
     required this.map,
@@ -25,13 +25,11 @@ class GameMapBuilder {
 
   GameMap buildMap(GameCanvas gameCanvas) {
     final TilePosition origin = TilePosition(0, 0);
-    final List<SpriteInstance> sprites =
-        blueprints.map((e) => e.render(gameCanvas, origin)).toList();
 
     return GameMap(
       gameCanvas: gameCanvas,
       activeSprite: controllableSprite.render(gameCanvas, origin),
-      sprites: sprites,
+      sprites: blueprints,
     );
   }
 }

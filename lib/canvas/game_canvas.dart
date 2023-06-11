@@ -29,36 +29,35 @@ class GameCanvasState extends State<GameCanvas> {
       if (signal.code == SignalCode.gameCanvasKeyEventReceived) {
         final KeyEvent keyEvent = signal.context as KeyEvent;
         final bool knownKey;
+        final Offset camOffset;
         if (keyEvent.logicalKey == LogicalKeyboardKey.arrowLeft) {
-          widget.camera.offset += Offset(widget.stepSize, 0);
+          camOffset = Offset(widget.stepSize, 0);
           knownKey = true;
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowRight) {
-          widget.camera.offset += Offset(-widget.stepSize, 0);
+          camOffset = Offset(-widget.stepSize, 0);
           knownKey = true;
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp) {
-          widget.camera.offset += Offset(0, widget.stepSize);
+          camOffset = Offset(0, widget.stepSize);
           knownKey = true;
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
-          widget.camera.offset += Offset(0, -widget.stepSize);
+          camOffset = Offset(0, -widget.stepSize);
           knownKey = true;
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.bracketRight) {
           widget.camera.changeZoom(0.2);
           knownKey = true;
+          camOffset = Offset.zero;
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.bracketLeft) {
           widget.camera.changeZoom(-0.2);
           knownKey = true;
+          camOffset = Offset.zero;
         } else {
           knownKey = false;
+          camOffset = Offset.zero;
         }
         if (knownKey) {
           setState(() {});
 
-          Channel.streamController.add(
-            Signal(
-              code: SignalCode.activeSpriteMoved,
-              context: widget.gameMap(widget).activeSprite.getRenderBox(),
-            ),
-          );
+          checkCollisionPhysics(camOffset);
         }
       }
     });
@@ -80,6 +79,46 @@ class GameCanvasState extends State<GameCanvas> {
       }
     });
     super.initState();
+  }
+
+  List<G2ExtrudedSpriteInstance> get extrudedSprites => widget
+      .gameMap(widget)
+      .buildSprites()
+      .whereType<G2ExtrudedSpriteInstance>()
+      .toList();
+
+  void checkCollisionPhysics(Offset camOffset) {
+    ////////// PHYSICS
+    // the expected translation vector of the sprite
+    final Offset spriteOffset = camOffset.reverse();
+    // calculate the movement area
+    final AreaMatrix movementArea = widget
+        .gameMap(widget)
+        .activeSprite
+        .positionMatrix
+        .translate(spriteOffset);
+    // check against other extruded sprites by comparing AreaMatrixes, and
+    // every extruded sprite that collides with the active sprite
+    // adjusts the translation vector to prevent the collision
+    final Offset changeTranslationVector =
+        collisionAdjustedOffset(movementArea, spriteOffset);
+    // adjust the sprite's translation, convert it to camera translation
+    final Offset newCamOffset =
+        (spriteOffset + changeTranslationVector).reverse();
+    // perform translation by moving the camera
+    widget.camera.offset += newCamOffset;
+  }
+
+  Offset collisionAdjustedOffset(AreaMatrix movementArea, Offset original) {
+    Offset adjOffset = Offset.zero;
+    for (G2ExtrudedSpriteInstance extrudedSprite in extrudedSprites) {
+      final Offset? newOffset =
+          movementArea.checkForOverlap(extrudedSprite.positionMatrix, original);
+      if (newOffset != null) {
+        adjOffset += newOffset;
+      }
+    }
+    return adjOffset;
   }
 
   @override
@@ -110,7 +149,7 @@ class GameCanvasState extends State<GameCanvas> {
                   width: ScreenDimensions.getWidth(context),
                   height: ScreenDimensions.getHeight(context),
                   child: Stack(
-                    children: widget.gameMap(widget).sprites,
+                    children: widget.gameMap(widget).buildSprites(),
                   ),
                 ),
                 Center(

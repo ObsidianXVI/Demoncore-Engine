@@ -3,7 +3,7 @@ part of demoncore;
 abstract class MapComponent {
   const MapComponent();
 
-  List<SpriteBlueprint> createBlueprints();
+  List<G2SpriteBlueprint> createBlueprints();
 }
 
 class OffsetComponent extends MapComponent {
@@ -18,15 +18,15 @@ class OffsetComponent extends MapComponent {
   });
 
   @override
-  List<SpriteBlueprint> createBlueprints() {
-    return child.createBlueprints().map((SpriteBlueprint bp) {
+  List<G2SpriteBlueprint> createBlueprints() {
+    return child.createBlueprints().map((G2SpriteBlueprint bp) {
       return bp..position.translate([-left, -top]);
     }).toList();
   }
 }
 
 class Rectangle extends MapComponent {
-  final SpriteBlueprint spriteBlueprint;
+  final G2SpriteBlueprint spriteBlueprint;
   final int width;
   final int height;
 
@@ -37,8 +37,8 @@ class Rectangle extends MapComponent {
   });
 
   @override
-  List<SpriteBlueprint> createBlueprints() {
-    final List<SpriteBlueprint> spriteBlueprints = [];
+  List<G2SpriteBlueprint> createBlueprints() {
+    final List<G2SpriteBlueprint> spriteBlueprints = [];
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
         spriteBlueprints.add(

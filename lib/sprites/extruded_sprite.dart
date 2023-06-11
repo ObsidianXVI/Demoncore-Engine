@@ -38,7 +38,8 @@ class ExtrudedStaticTileSpriteInstance extends StaticTileSpriteInstance
       globalKey.currentContext?.findRenderObject() as RenderBox?;
 
   @override
-  StaticTileSpriteController createState() => StaticTileSpriteController();
+  ExtrudedStaticTileSpriteController createState() =>
+      ExtrudedStaticTileSpriteController();
 }
 
 class ExtrudedControllableSpriteInstance extends SpriteInstance {
@@ -71,3 +72,6 @@ class ExtrudedControllableSpriteController
     return super.build(context);
   }
 }
+
+class ExtrudedStaticTileSpriteController
+    extends SpriteController<ExtrudedStaticTileSpriteInstance> {}
